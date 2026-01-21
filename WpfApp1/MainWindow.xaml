@@ -1,0 +1,268 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление производством" Height="700" Width="1100">
+    <Grid Margin="10">
+        <TabControl>
+
+            <!-- 1) Материалы -->
+            <TabItem Header="Материалы">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBox x:Name="tbMatName" Width="220" Margin="0,0,8,0" ToolTip="Наименование"/>
+                        <TextBox x:Name="tbMatUnit" Width="120" Margin="0,0,8,0" ToolTip="Ед. изм."/>
+                        <TextBox x:Name="tbMatMin" Width="120" Margin="0,0,8,0" ToolTip="Мин. остаток"/>
+
+                        <Button Content="Добавить" Width="90" Margin="0,0,8,0" Click="MatAdd_Click"/>
+                        <Button Content="Изменить" Width="90" Margin="0,0,8,0" Click="MatUpd_Click"/>
+                        <Button Content="Удалить" Width="90" Margin="0,0,8,0" Click="MatDel_Click"/>
+                        <Button Content="Обновить" Width="90" Click="MatRef_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="dgMat" Grid.Row="1" AutoGenerateColumns="True"
+                              IsReadOnly="True" SelectionChanged="DgMat_SelectionChanged"/>
+                </Grid>
+            </TabItem>
+
+            <!-- 1) Продукция + спецификация -->
+            <TabItem Header="Продукция + BOM">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Продукция -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBox x:Name="tbProdSku" Width="120" Margin="0,0,8,0" ToolTip="Артикул"/>
+                            <TextBox x:Name="tbProdName" Width="200" Margin="0,0,8,0" ToolTip="Название"/>
+                            <TextBox x:Name="tbProdDesc" Width="260" Margin="0,0,8,0" ToolTip="Описание"/>
+
+                            <Button Content="Добавить" Width="90" Margin="0,0,8,0" Click="ProdAdd_Click"/>
+                            <Button Content="Изменить" Width="90" Margin="0,0,8,0" Click="ProdUpd_Click"/>
+                            <Button Content="Удалить" Width="90" Margin="0,0,8,0" Click="ProdDel_Click"/>
+                            <Button Content="Обновить" Width="90" Click="ProdRef_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgProd" Grid.Row="1" AutoGenerateColumns="True"
+                                  IsReadOnly="True" SelectionChanged="DgProd_SelectionChanged"/>
+                    </Grid>
+
+                    <!-- BOM -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <ComboBox x:Name="cbBomMat" Width="230" Margin="0,0,8,0"
+                                      DisplayMemberPath="Name" SelectedValuePath="MaterialId"/>
+                            <TextBox x:Name="tbBomQty" Width="120" Margin="0,0,8,0" ToolTip="Кол-во на 1 шт"/>
+
+                            <Button Content="Добавить" Width="90" Margin="0,0,8,0" Click="BomAdd_Click"/>
+                            <Button Content="Удалить" Width="90" Margin="0,0,8,0" Click="BomDel_Click"/>
+                            <Button Content="Обновить" Width="90" Click="BomRef_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgBom" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- 2) Поставки + склад -->
+            <TabItem Header="Поставки + склад">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Поставка (одна запись = приход) -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <DatePicker x:Name="dpPurDate" Width="140" Margin="0,0,8,0"/>
+                            <ComboBox x:Name="cbPurSupplier" Width="220" Margin="0,0,8,0"
+                                      DisplayMemberPath="Name" SelectedValuePath="SupplierId"/>
+                            <ComboBox x:Name="cbPurMat" Width="220" Margin="0,0,8,0"
+                                      DisplayMemberPath="Name" SelectedValuePath="MaterialId"/>
+                            <TextBox x:Name="tbPurQty" Width="100" Margin="0,0,8,0" ToolTip="Кол-во"/>
+                            <TextBox x:Name="tbPurPrice" Width="100" Margin="0,0,8,0" ToolTip="Цена"/>
+
+                            <Button Content="Добавить приход" Width="140" Click="PurAdd_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgPur" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- Склад -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Button Content="Обновить склад" Width="140" Click="StockRef_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgStock" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- 3) Заказы -->
+            <TabItem Header="Заказы">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Заказ -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <ComboBox x:Name="cbOrdClient" Width="220" Margin="0,0,8,0"
+                                      DisplayMemberPath="Name" SelectedValuePath="ClientId"/>
+                            <ComboBox x:Name="cbOrdProd" Width="220" Margin="0,0,8,0"
+                                      DisplayMemberPath="Name" SelectedValuePath="ProductId"/>
+                            <TextBox x:Name="tbOrdQty" Width="100" Margin="0,0,8,0" ToolTip="Кол-во"/>
+                            <DatePicker x:Name="dpOrdStart" Width="140" Margin="0,0,8,0"/>
+                            <DatePicker x:Name="dpOrdEnd" Width="140" Margin="0,0,8,0"/>
+
+                            <ComboBox x:Name="cbOrdStatus" Width="130" Margin="0,0,8,0">
+                                <ComboBoxItem Content="waiting"/>
+                                <ComboBoxItem Content="in_work"/>
+                                <ComboBoxItem Content="done"/>
+                                <ComboBoxItem Content="canceled"/>
+                            </ComboBox>
+
+                            <Button Content="Создать" Width="90" Margin="0,0,8,0" Click="OrdAdd_Click"/>
+                            <Button Content="Статус=В работе" Width="120" Click="OrdToWork_Click"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Button Content="Рассчитать материалы" Width="180" Margin="0,0,8,0" Click="OrdCalc_Click"/>
+                            <Button Content="Списать со склада" Width="160" Click="OrdIssue_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgOrd" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"
+                                  SelectionChanged="DgOrd_SelectionChanged"/>
+                    </Grid>
+
+                    <!-- Материалы заказа -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Материалы заказа" FontWeight="Bold" Margin="0,0,0,8"/>
+                        <DataGrid x:Name="dgOrdMat" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- 4) Сотрудники + оборудование + назначения (минимально) -->
+            <TabItem Header="Сотрудники/Оборудование/Назначения">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Сотрудники -->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBox x:Name="tbEmpFio" Width="200" Margin="0,0,8,0" ToolTip="ФИО одной строкой"/>
+                            <TextBox x:Name="tbEmpPos" Width="130" Margin="0,0,8,0" ToolTip="Должность"/>
+                            <TextBox x:Name="tbEmpDept" Width="120" Margin="0,0,8,0" ToolTip="Отдел"/>
+                            <TextBox x:Name="tbEmpRate" Width="90" Margin="0,0,8,0" ToolTip="Ставка"/>
+                            <Button Content="Добавить" Width="90" Click="EmpAdd_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgEmp" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- Оборудование -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBox x:Name="tbEqName" Width="160" Margin="0,0,8,0" ToolTip="Наименование"/>
+                            <TextBox x:Name="tbEqInv" Width="120" Margin="0,0,8,0" ToolTip="Инв.номер"/>
+                            <ComboBox x:Name="cbEqSt" Width="110" Margin="0,0,8,0">
+                                <ComboBoxItem Content="free"/>
+                                <ComboBoxItem Content="in_work"/>
+                                <ComboBoxItem Content="repair"/>
+                            </ComboBox>
+                            <Button Content="Добавить" Width="90" Click="EqAdd_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgEq" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- Назначения -->
+                    <Grid Grid.Column="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Margin="0,0,0,8">
+                            <ComboBox x:Name="cbAsOrder" Width="260" Margin="0,0,0,8"
+                                      DisplayMemberPath="ProductionOrderId" SelectedValuePath="ProductionOrderId"/>
+                            <ComboBox x:Name="cbAsEmp" Width="260" Margin="0,0,0,8"
+                                      DisplayMemberPath="LastName" SelectedValuePath="EmployeeId"/>
+                            <ComboBox x:Name="cbAsEq" Width="260" Margin="0,0,0,8"
+                                      DisplayMemberPath="InventoryNo" SelectedValuePath="EquipmentId"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Назначить сотрудника" Width="160" Margin="0,0,8,0" Click="AsEmp_Click"/>
+                                <Button Content="Назначить оборуд." Width="140" Click="AsEq_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgAs" Grid.Row="1" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

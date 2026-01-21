@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7817a478d24b4441a9ccc10b7cfe678b" Name="Diagram1">
+        <EntityTypeShape EntityType="predpriModel.BillOfMaterials" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Client" Width="1.5" PointX="3.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Employee" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Equipment" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Material" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.MaterialStock" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.OrderAssignment" Width="1.5" PointX="8.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.OrderMaterial" Width="1.5" PointX="11.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Product" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.ProductionOrder" Width="1.5" PointX="6" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Purchase" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.PurchaseItem" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.Supplier" Width="1.5" PointX="1.5" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="predpriModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="predpriModel.FK_BOM_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_BOM_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Order_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Assignment_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Assignment_Equipment" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_MaterialStock_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_OrderMaterial_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_PurchaseItem_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Assignment_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_OrderMaterial_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Order_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_Purchase_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="predpriModel.FK_PurchaseItem_Purchase" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
